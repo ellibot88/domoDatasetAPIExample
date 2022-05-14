@@ -1,3 +1,6 @@
+const axios = require("axios");
+require("dotenv").config();
+
 //Authenticate with Domo API
 
 const { domo_client_id, domo_client_secret } = process.env;
@@ -16,12 +19,14 @@ axios
   )
   .then((res) => {
     let token = res.data["access_token"];
+    return token;
   })
   .catch((err) => console.log(err));
 
 //Call DataSet API and save payload
 
 //Loop through payload and send text messages using Twilio API
+
 const { twilio_account_sid, twilio_auth_token, twilio_phone_number } =
   process.env;
 let configuration = {
@@ -36,7 +41,7 @@ let configuration = {
   },
 };
 
-res.data.rows.forEach((element) => {
+data.forEach((element) => {
   axios
     .post(
       `https://api.twilio.com/2010-04-01/Accounts/${twilio_account_sid}/Messages.json`,
